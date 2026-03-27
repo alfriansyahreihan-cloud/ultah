@@ -6,27 +6,24 @@
     <title>HBD Sayang! ❤️</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/typeit@8.7.0/dist/typeit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
     <div class="card">
         <div class="top-deco">📍 Terpisah Pulau, Tapi Dekat di Doa</div>
-        
         <h1 class="dancing-font">Happy Birthday! 🎂</h1>
-        
-        <div id="text-typing" class="text-content"></div>
+        <p class="text-content">Selamat bertambah usia, Sayang! Meski kita beda pulau, doa aku selalu sampai ke kamu. Makasih ya sudah jadi bagian terindah di hidup aku. ❤️</p>
 
-        <button id="btn-surprise">Buka Kado ❤️</button>
+        <button id="btn-surprise" onclick="bukaKado()">Buka Kado ❤️</button>
 
-        <div id="hidden-content" class="hidden">
-            <p class="sweet-message">Terima kasih ya, udah lahir ke dunia ini. Makasih udah biarin aku jadi bagian dari hari spesialmu meskipun kita belum pernah ketemu langsung. ❤️</p>
+        <div id="hidden-content" style="display: none;">
+            <p class="sweet-message">Terima kasih ya udah lahir ke dunia. Makasih udah biarin aku jadi bagian hari spesialmu meskipun belum ketemu langsung. ❤️</p>
             
             <div class="photo-grid">
-                <img src="doi1.jpeg" alt="Foto Doi 1" class="photo-doi">
-                <img src="doi2.jpeg" alt="Foto Doi 2" class="photo-doi">
-                <img src="doi3.jpeg" alt="Foto Doi 3" class="photo-doi">
+                <img src="doi1.jpg" alt="Foto 1" class="photo-doi">
+                <img src="doi2.jpg" alt="Foto 2" class="photo-doi">
+                <img src="doi3.jpg" alt="Foto 3" class="photo-doi">
             </div>
 
             <p class="signature dancing-font">With Love, Reihan</p>
@@ -34,45 +31,21 @@
     </div>
 
     <script>
-        // Efek Ngetik
-        new TypeIt("#text-typing", {
-            strings: ["Meski raga kita di pulau yang berbeda, doa aku selalu sampai ke kamu. Selamat bertambah usia, Sayang! Makasih sudah jadi bagian terindah di hidup aku. ❤️"],
-            speed: 50,
-            waitUntilVisible: true,
-            cursor: false
-        }).go();
-
-        // Tombol Klik
-        document.getElementById('btn-surprise').addEventListener('click', function() {
-            this.style.display = 'none';
-            const content = document.getElementById('hidden-content');
-            content.classList.remove('hidden');
+        function bukaKado() {
+            // 1. Sembunyikan Tombol
+            document.getElementById('btn-surprise').style.display = 'none';
             
-            // Efek Confetti
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
-
-            (function frame() {
-              confetti({
-                particleCount: 3,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
+            // 2. Munculkan Konten
+            document.getElementById('hidden-content').style.display = 'block';
+            
+            // 3. Mainkan Confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
                 colors: ['#D4BDAC', '#533E2D', '#E9E0D2']
-              });
-              confetti({
-                particleCount: 3,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ['#D4BDAC', '#533E2D', '#E9E0D2']
-              });
-
-              if (Date.now() < end) {
-                requestAnimationFrame(frame);
-              }
-            }());
-        });
+            });
+        }
     </script>
 </body>
 </html>
