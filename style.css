@@ -1,93 +1,104 @@
-:root {
-    --bg-color: #fff5f5;
-    --accent-color: #ff8fa3;
-    --text-main: #4a4a4a;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-color);
-    font-family: 'Quicksand', sans-serif;
+    background-color: #f5f0e1; /* Warna Cream Soft */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    padding: 20px;
 }
 
-/* Kotak Utama */
-.envelope-wrapper {
-    background: white;
+.card {
+    background: #ffffff;
+    max-width: 500px;
+    width: 100%;
     padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(255, 143, 163, 0.2);
+    border-radius: 25px;
     text-align: center;
-    width: 85%;
-    max-width: 380px;
-    border: 1px solid rgba(255, 143, 163, 0.1);
+    box-shadow: 0 10px 30px rgba(83, 62, 45, 0.1);
+}
+
+.top-deco {
+    background: #e9e0d2;
+    color: #533e2d;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+}
+
+.dancing-font {
+    font-family: 'Dancing Script', cursive;
+    color: #533e2d; /* Cokelat Tua Warm */
 }
 
 h1 {
-    font-family: 'Dancing Script', cursive;
-    color: var(--accent-color);
-    font-size: 2.5rem;
-    margin: 10px 0;
-}
-
-/* Label LDR */
-.location-box {
-    font-size: 0.75rem;
-    color: #999;
-    border: 1px dashed var(--accent-color);
-    padding: 6px 12px;
-    border-radius: 20px;
+    font-size: 2.8rem;
     margin-bottom: 20px;
-    display: inline-block;
-    letter-spacing: 1px;
 }
 
-/* Area Teks Mengetik */
-#typing-text {
-    min-height: 100px;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--text-main);
+.text-content {
+    color: #6b5a4a;
+    line-height: 1.6;
+    font-size: 1rem;
     margin-bottom: 25px;
-    font-weight: 500;
+    min-height: 80px;
 }
 
-/* Tombol Kejutan */
-.btn-surprise {
-    background: var(--accent-color);
+#btn-surprise {
+    background: #d4bdac; /* Cokelat Muda Sweet */
     color: white;
     border: none;
-    padding: 14px 30px;
-    border-radius: 30px;
-    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 25px;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 143, 163, 0.4);
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
-.btn-surprise:hover {
-    transform: scale(1.1);
-    background: #ff758c;
+#btn-surprise:hover {
+    background: #bca390;
+    transform: scale(1.05);
 }
 
-/* Efek Melayang Halus */
-.floating {
-    animation: floatAnim 4s ease-in-out infinite;
+.hidden {
+    display: none;
 }
 
-@keyframes floatAnim {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+#hidden-content {
+    animation: fadeIn 1s ease-in;
 }
 
-/* Responsif untuk layar kecil (HP) */
-@media (max-width: 480px) {
-    h1 { font-size: 2rem; }
-    .envelope-wrapper { padding: 30px 20px; }
+.sweet-message {
+    color: #6b5a4a;
+    margin-top: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.photo-doi {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 8px solid #f5f0e1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.signature {
+    font-size: 1.8rem;
+    margin-top: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }

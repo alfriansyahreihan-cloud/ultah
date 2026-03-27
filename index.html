@@ -4,56 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HBD Sayang! ❤️</title>
-    
-    <link rel="stylesheet" href="css/style.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/typeit@8.7.0/dist/typeit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <div class="envelope-wrapper floating">
-        <div class="location-box">
-            📍 Terpisah Pulau, Tapi Dekat di Doa
-        </div>
+    <div class="card">
+        <div class="top-deco">📍 Terpisah Pulau, Tapi Dekat di Doa</div>
         
-        <h1>Happy Birthday! 🎂</h1>
+        <h1 class="dancing-font">Happy Birthday! 🎂</h1>
         
-        <div id="typing-text"></div>
+        <div id="text-typing" class="text-content"></div>
 
-        <button class="btn-surprise" onclick="celebrate()">Klik Kejutan ✨</button>
+        <button id="btn-surprise">Buka Kado ❤️</button>
+
+        <div id="hidden-content" class="hidden">
+            <p class="sweet-message">Terima kasih ya, udah lahir ke dunia ini. Makasih udah biarin aku jadi bagian dari hari spesialmu meskipun kita belum pernah ketemu langsung. ❤️</p>
+            <img src="doi.jpg" alt="Foto Doi" class="photo-doi">
+            <p class="signature dancing-font">With Love, Reihan</p>
+        </div>
     </div>
 
     <script>
-        // ISI PESAN KAMU DI SINI:
-        const text = "Meski raga kita di pulau yang berbeda, tapi hari ini seluruh doa aku cuma tertuju ke kamu. Selamat bertambah usia, ya! Makasih sudah jadi bagian paling indah di hidup aku walaupun kita belum pernah ketemu langsung. ❤️";
-        
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                document.getElementById("typing-text").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50); // Kecepatan ngetik (50ms)
-            }
-        }
+        // Efek Ngetik
+        new TypeIt("#text-typing", {
+            strings: ["Meski raga kita di pulau yang berbeda, doa aku selalu sampai ke kamu. Selamat bertambah usia, Sayang! Makasih sudah jadi bagian terindah di hidup aku. ❤️"],
+            speed: 50,
+            waitUntilVisible: true,
+            cursor: false
+        }).go();
 
-        // Jalankan efek ketik saat halaman terbuka
-        window.onload = typeWriter;
+        // Tombol Klik
+        document.getElementById('btn-surprise').addEventListener('click', function() {
+            this.style.display = 'none';
+            const content = document.getElementById('hidden-content');
+            content.classList.remove('hidden');
+            
+            // Efek Confetti (Meriah!)
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
 
-        // Fungsi saat tombol diklik
-        function celebrate() {
-            // Efek Confetti (Kertas warna-warni)
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff8fa3', '#ffb3c1', '#ffffff']
-            });
+            (function frame() {
+              confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#D4BDAC', '#533E2D', '#E9E0D2']
+              });
+              confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#D4BDAC', '#533E2D', '#E9E0D2']
+              });
 
-            const btn = document.querySelector('.btn-surprise');
-            btn.innerHTML = "I Love You! ❤️";
-            btn.style.background = "#ff4d6d";
-        }
+              if (Date.now() < end) {
+                requestAnimationFrame(frame);
+              }
+            }());
+        });
     </script>
 </body>
 </html>
