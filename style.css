@@ -1,0 +1,93 @@
+:root {
+    --bg-color: #fff5f5;
+    --accent-color: #ff8fa3;
+    --text-main: #4a4a4a;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Kotak Utama */
+.envelope-wrapper {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(255, 143, 163, 0.2);
+    text-align: center;
+    width: 85%;
+    max-width: 380px;
+    border: 1px solid rgba(255, 143, 163, 0.1);
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    color: var(--accent-color);
+    font-size: 2.5rem;
+    margin: 10px 0;
+}
+
+/* Label LDR */
+.location-box {
+    font-size: 0.75rem;
+    color: #999;
+    border: 1px dashed var(--accent-color);
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+
+/* Area Teks Mengetik */
+#typing-text {
+    min-height: 100px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+/* Tombol Kejutan */
+.btn-surprise {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 143, 163, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-surprise:hover {
+    transform: scale(1.1);
+    background: #ff758c;
+}
+
+/* Efek Melayang Halus */
+.floating {
+    animation: floatAnim 4s ease-in-out infinite;
+}
+
+@keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Responsif untuk layar kecil (HP) */
+@media (max-width: 480px) {
+    h1 { font-size: 2rem; }
+    .envelope-wrapper { padding: 30px 20px; }
+}
