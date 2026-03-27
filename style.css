@@ -127,3 +127,29 @@ h1 {
         height: auto; /* Tinggi otomatis di HP kecil */
     }
 }
+
+/* Styling untuk Barcode */
+.barcode-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f5f0e1; /* Warna cream soft */
+    border-radius: 15px;
+    border: 2px dashed #d4bdac; /* Garis putus-putus cokelat muda */
+    display: inline-block; /* Biar ukurannya pas sama konten */
+    animation: fadeIn 1.5s ease-in; /* Muncul perlahan */
+}
+
+.barcode-text {
+    color: #6b5a4a;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.barcode-img {
+    width: 150px; /* Ukuran barcode */
+    height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(83, 62, 45, 0.1);
+}
