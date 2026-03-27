@@ -22,7 +22,13 @@
 
         <div id="hidden-content" class="hidden">
             <p class="sweet-message">Terima kasih ya, udah lahir ke dunia ini. Makasih udah biarin aku jadi bagian dari hari spesialmu meskipun kita belum pernah ketemu langsung. ❤️</p>
-            <img src="doi.jpg" alt="Foto Doi" class="photo-doi">
+            
+            <div class="photo-grid">
+                <img src="doi1.jpeg" alt="Foto Doi 1" class="photo-doi">
+                <img src="doi2.jpeg" alt="Foto Doi 2" class="photo-doi">
+                <img src="doi3.jpeg" alt="Foto Doi 3" class="photo-doi">
+            </div>
+
             <p class="signature dancing-font">With Love, Reihan</p>
         </div>
     </div>
@@ -42,7 +48,7 @@
             const content = document.getElementById('hidden-content');
             content.classList.remove('hidden');
             
-            // Efek Confetti (Meriah!)
+            // Efek Confetti
             var duration = 3 * 1000;
             var end = Date.now() + duration;
 

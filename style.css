@@ -16,7 +16,7 @@ body {
 
 .card {
     background: #ffffff;
-    max-width: 500px;
+    max-width: 600px; /* Sedikit dilebarin biar muat grid */
     width: 100%;
     padding: 40px 30px;
     border-radius: 25px;
@@ -82,15 +82,25 @@ h1 {
     margin-top: 20px;
     font-size: 1rem;
     line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* GRID FOTO */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsif */
+    gap: 15px;
+    margin-bottom: 30px;
 }
 
 .photo-doi {
     width: 100%;
-    max-width: 300px;
+    height: 200px; /* Atur tinggi seragam */
+    object-fit: cover; /* Potong foto biar pas */
     border-radius: 15px;
-    margin: 20px 0;
-    border: 8px solid #f5f0e1;
+    border: 5px solid #f5f0e1;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    animation: photoIn 1s ease-out;
 }
 
 .signature {
@@ -101,4 +111,19 @@ h1 {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes photoIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Penyesuaian Mobile */
+@media (max-width: 480px) {
+    .photo-grid {
+        grid-template-columns: 1fr; /* Susun vertikal di HP kecil */
+    }
+    .photo-doi {
+        height: auto; /* Tinggi otomatis di HP kecil */
+    }
 }
