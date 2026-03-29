@@ -33,97 +33,80 @@
         .map-wrapper {
             position: relative;
             width: 100%;
-            aspect-ratio: 16 / 9; /* Kunci proporsi vector agar tidak gepeng */
+            aspect-ratio: 16 / 9; /* Kunci proporsi agar tidak lari di HP */
             margin: 20px 0;
             border-radius: 15px;
             border: 2px dashed #d4bdac;
-            background-color: #1a1c20; /* Warna gelap ala digital map */
+            background-color: #f5f0e1; 
             overflow: hidden;
             cursor: pointer;
+            touch-action: manipulation;
         }
 
-        /* Container yang akan di-zoom */
+        /* Container yang di-zoom (Drone View Smooth) */
         #mapContent {
             position: absolute;
             width: 100%;
             height: 100%;
-            transition: transform 3.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background-image: url('peta.jpeg'); 
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            /* Cubic-bezier membuat transisi zoom sangat halus (Smooth) */
+            transition: transform 4s cubic-bezier(0.25, 1, 0.5, 1);
             transform: scale(1);
+            transform-origin: center center;
         }
 
         /* Focus Zoom ke area Sumatra-Jawa */
-        .zoomed {
-            transform: scale(4) translate(20%, -18%); 
+        .map-zoomed {
+            transform: scale(4.2) translate(21.5%, -18.5%); 
         }
 
-        /* --- VECTOR PETA INDONESIA (SUMATRA-JAWA) --- */
-        .map-vector {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            fill: #333; /* Siluet pulau kelabu gelap */
-        }
-
-        /* --- KOORDINAT GPS (DOTS & LABELS) --- */
-        .coordinate-system {
-            stroke: rgba(255,255,255,0.1); /* Garis grid halus */
-            stroke-width: 0.2;
-        }
-
-        .gps-point {
-            position: absolute;
-            z-index: 10;
-        }
-
+        /* --- TITIK KOORDINAT --- */
         .dot {
+            position: absolute;
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            border: 2px solid white;
-            position: absolute;
-            top: -4px;
-            left: -4px;
+            z-index: 10;
         }
 
-        /* Prabumulih (Sumatra Selatan) - Titik Cokelat */
-        #gps-prabumulih {
-            top: 73%; 
-            left: 21%;
-        }
+        /* Prabumulih (Sumatra Selatan) */
         #dot-prabumulih {
-            background-color: #f1c40f; 
-            box-shadow: 0 0 10px rgba(241, 196, 15, 0.8);
-            animation: pulse-gps 1.5s infinite;
+            top: 72.5%; 
+            left: 21.2%;
+            background-color: #533e2d; 
+            box-shadow: 0 0 8px rgba(83, 62, 45, 0.8);
+            animation: pulse 1.5s infinite;
         }
 
-        /* Jakarta Barat (DKI Jakarta) - Titik Beige */
-        #gps-jakarta {
-            top: 84%; 
-            left: 27%;
-        }
+        /* Jakarta Barat (Jawa) */
         #dot-jakarta {
-            background-color: #dcdde1; 
-            box-shadow: 0 0 10px rgba(220, 221, 225, 0.8);
-            animation: pulse-gps 1.5s infinite;
+            top: 83.5%; 
+            left: 26.8%;
+            background-color: #d4bdac; 
+            box-shadow: 0 0 8px rgba(212, 189, 172, 0.8);
+            animation: pulse 1.5s infinite;
         }
 
+        /* LABEL KOTA (Kecil agar pas saat di-zoom) */
         .label {
             position: absolute;
-            font-size: 3.5px; /* Kecil karena akan membesar saat zoom */
-            color: #dcdde1;
+            font-size: 3.5px; 
+            color: #533e2d;
             font-weight: 700;
-            background: rgba(0,0,0,0.5);
+            z-index: 11;
+            background: rgba(255,255,255,0.7);
             padding: 0.5px 2px;
             border-radius: 2px;
             white-space: nowrap;
-            top: 6px;
-            left: -10px;
         }
+        #label-prabumulih { top: 69%; left: 16%; }
+        #label-jakarta { top: 87%; left: 24%; }
 
-        /* --- JALUR CINTA SVG (MELENGKUNG INDAH) --- */
-        .love-line-gps {
+        /* --- JALUR CINTA --- */
+        .love-line {
             position: absolute;
             top: 0;
             left: 0;
@@ -134,29 +117,29 @@
         }
 
         .path {
-            stroke: #f1c40f; /* Kuning GPS */
-            stroke-width: 0.8;
+            stroke: #e74c3c; 
+            stroke-width: 1;
             stroke-dasharray: 100;
             stroke-dashoffset: 100;
             fill: none;
             stroke-linecap: round;
-            animation: draw-gps 3s ease-in-out forwards;
-            animation-delay: 3.5s; /* Mulai setelah zoom drone selesai */
+            animation: draw 3s ease-in-out forwards;
+            animation-delay: 4s; /* Muncul setelah zoom drone selesai */
         }
 
         .heart-marker {
             opacity: 0;
-            animation: appear-gps 1s forwards;
-            animation-delay: 6s; /* Muncul di akhir garis */
+            animation: appear 1s forwards;
+            animation-delay: 6.5s; 
         }
 
         /* --- ANIMASI KEYFRAMES --- */
-        @keyframes draw-gps { to { stroke-dashoffset: 0; } }
-        @keyframes appear-gps { to { opacity: 1; transform: scale(1.2); } }
-        @keyframes pulse-gps {
-            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
-            70% { transform: scale(1.3); box-shadow: 0 0 0 5px rgba(241, 196, 15, 0); }
-            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        @keyframes appear { to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0.7); }
+            70% { transform: scale(1.3); box-shadow: 0 0 0 5px rgba(83, 62, 45, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0); }
         }
 
         .fade-in {
@@ -165,7 +148,7 @@
         }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        .dancing-font { font-family: 'Dancing Script', sans-serif; }
+        .dancing-font { font-family: 'Dancing Script', cursive; }
     </style>
 </head>
 <body>
@@ -181,31 +164,16 @@
 
         <div class="map-wrapper" onclick="toggleLove()">
             <div id="mapContent">
-                
-                <svg class="map-vector" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <g class="coordinate-system">
-                        <line x1="10" y1="70" x2="40" y2="70" />
-                        <line x1="10" y1="80" x2="40" y2="80" />
-                        <line x1="20" y1="65" x2="20" y2="90" />
-                        <line x1="30" y1="65" x2="30" y2="90" />
-                    </g>
-                    <path d="M12,65 Q18,68 22,73 Q25,78 27,84 L29,88 Q35,89 40,88" fill="none" stroke="#333" stroke-width="2.5" />
+                <div id="dot-prabumulih" class="dot"></div>
+                <div id="label-prabumulih" class="label">Prabumulih</div>
+
+                <div id="dot-jakarta" class="dot"></div>
+                <div id="label-jakarta" class="label">Jakarta Barat</div>
+
+                <svg class="love-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path id="lovePath" class="path" d="M21.2,72.5 Q23.5,78 26.8,83.5"></path>
+                    <text id="heartIcon" class="heart-marker" x="23.2" y="79" fill="#e74c3c" font-size="6">❤️</text>
                 </svg>
-
-                <svg class="love-line-gps" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path id="lovePath" class="path" d="M21,73 Q23.5,78.5 27,84"></path>
-                    <text id="heartIcon" class="heart-marker" x="23.5" y="79.5" fill="red" font-size="6">❤️</text>
-                </svg>
-
-                <div id="gps-prabumulih" class="gps-point">
-                    <div id="dot-prabumulih" class="dot"></div>
-                    <div class="label">Prabumulih</div>
-                </div>
-                <div id="gps-jakarta" class="gps-point">
-                    <div id="dot-jakarta" class="dot"></div>
-                    <div class="label">Jakarta Barat</div>
-                </div>
-
             </div>
         </div>
 
@@ -214,37 +182,37 @@
     </div>
 
     <script>
-        // ZOOM OTOMATIS SAAT DIBUKA
-        window.addEventListener('load', () => {
+        // Zoom Otomatis pas halaman dibuka
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                document.getElementById('mapContent').classList.add('zoomed');
+                document.getElementById('mapContent').classList.add('map-zoomed');
             }, 800);
         });
 
-        // INTERAKSI KLIK BOLAK-BALIK
+        // Fungsi Interaksi Balik (Jakarta ke Prabumulih)
         let isReversed = false;
         function toggleLove() {
             const path = document.getElementById('lovePath');
             const heart = document.getElementById('heartIcon');
             
-            // Reset animasi
+            // Restart animasi
             path.style.animation = 'none';
             path.offsetHeight; 
             
             if (!isReversed) {
                 // Balik: Jakarta -> Prabumulih
-                path.setAttribute('d', 'M27,84 Q23.5,78.5 21,73');
+                path.setAttribute('d', 'M26.8,83.5 Q23.5,78 21.2,72.5');
                 heart.setAttribute('x', '23');
                 heart.setAttribute('y', '77');
                 isReversed = true;
             } else {
                 // Awal: Prabumulih -> Jakarta
-                path.setAttribute('d', 'M21,73 Q23.5,78.5 27,84');
-                heart.setAttribute('x', '23.5');
-                heart.setAttribute('y', '79.5');
+                path.setAttribute('d', 'M21.2,72.5 Q23.5,78 26.8,83.5');
+                heart.setAttribute('x', '23.2');
+                heart.setAttribute('y', '79');
                 isReversed = false;
             }
-            path.style.animation = 'draw-gps 2.5s ease-in-out forwards';
+            path.style.animation = 'draw 2.5s ease-in-out forwards';
         }
     </script>
 
