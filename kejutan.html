@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kejutan Spesial! ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background-color: #f5f0e1;
@@ -15,12 +18,12 @@
             margin: 0;
             font-family: 'Quicksand', sans-serif;
         }
-        
+
         .card {
             background: white;
             padding: 30px;
             border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
             max-width: 400px;
             width: 85%;
             text-align: center;
@@ -81,8 +84,13 @@
             white-space: nowrap;
         }
 
-        #node-prabumulih { left: 0; }
-        #node-jakarta { right: 0; }
+        #node-prabumulih {
+            left: 0;
+        }
+
+        #node-jakarta {
+            right: 0;
+        }
 
         /* Icon Pesawat/Hati yang Bergerak */
         .travel-icon {
@@ -95,11 +103,29 @@
         }
 
         @keyframes travel {
-            0% { left: 0%; transform: translateY(-50%) rotate(0deg); }
-            50% { left: 100%; transform: translateY(-50%) rotate(0deg); }
-            51% { transform: translateY(-50%) rotateY(180deg); }
-            99% { left: 0%; transform: translateY(-50%) rotateY(180deg); }
-            100% { left: 0%; transform: translateY(-50%) rotate(0deg); }
+            0% {
+                left: 0%;
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            50% {
+                left: 100%;
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            51% {
+                transform: translateY(-50%) rotateY(180deg);
+            }
+
+            99% {
+                left: 0%;
+                transform: translateY(-50%) rotateY(180deg);
+            }
+
+            100% {
+                left: 0%;
+                transform: translateY(-50%) rotate(0deg);
+            }
         }
 
         /* Teks Pesan */
@@ -134,6 +160,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="card">
@@ -142,7 +169,7 @@
 
         <div class="timeline-container">
             <div class="timeline-line"></div>
-            
+
             <div id="node-prabumulih" class="city-node">
                 <span class="city-label" style="left: -10px;">Prabumulih</span>
             </div>
@@ -160,7 +187,7 @@
         </p>
 
         <p class="signature">With Love, Reihan</p>
-        
+
         <button class="btn-surprise" onclick="celebrate()">Buka Kado 🎁</button>
     </div>
 
@@ -178,11 +205,69 @@
             // Ganti icon pesawat jadi hati saat diklik
             const icon = document.querySelector('.travel-icon');
             icon.innerText = '❤️';
-            
+
             setTimeout(() => {
                 alert("Selamat Ulang Tahun Sayang! Semoga rindu ini segera lunas! 🎂");
             }, 500);
         }
     </script>
+    <div id="landing-action" style="display: none; text-align: center; margin-top: 30px;">
+        <button onclick="openLetter()" class="btn-read-more">Baca pesan dari Reihan ✉️</button>
+    </div>
+
+    <div id="final-letter-overlay" class="overlay" style="display: none;">
+        <div class="letter-content">
+            <div id="typewriter-text" class="typed-message"></div>
+            <button onclick="closeLetter()" class="btn-close">Tutup ❤️</button>
+        </div>
+    </div>
+    <script>
+        // 1. Definisikan Pesan Tulus Kamu
+        const pesanDoi = "Halo sayang ku, hari ini adalah hari yang spesial bagi mu kuharap mulai dari hari ini untuk tahun berikutnya semoga kita akan tetep bersama terus, aku ingin kita terus bersama selamanya, aku ingin kamu selalu menceritakan semua cerita mu untuk kedepannya, oh iya aku juga sangat menantikan yang dimana kamu bisa mewujudkan semua impian mu, aku juga ingin kamu selalu berada disisiku, maaf ya aku cuman ngasi ini di ultah pertama mu saat bersama ku, semoga kita bisa melewati rintangan ini semua ya.. I LOVE YOU SO MUCH BEE ❤️";
+
+        // 2. Fungsi untuk Membuka Surat & Efek Mengetik
+        function openLetter() {
+            // Munculkan Overlay Gelap
+            document.getElementById('final-letter-overlay').style.display = 'flex';
+
+            let i = 0;
+            const speed = 60; // Kecepatan ngetik (60ms per huruf)
+            const target = document.getElementById("typewriter-text");
+            target.innerHTML = ""; // Kosongkan dulu sebelum mulai ngetik
+
+            function type() {
+                if (i < pesanDoi.length) {
+                    target.innerHTML += pesanDoi.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // 3. Fungsi untuk Menutup Surat
+        function closeLetter() {
+            document.getElementById('final-letter-overlay').style.display = 'none';
+        }
+
+        // 4. Timer untuk Munculkan Tombol (Ganti 4500 sesuai durasi pesawat mendarat)
+        setTimeout(() => {
+            const btnLanding = document.getElementById('landing-action');
+            if (btnLanding) {
+                btnLanding.style.display = 'block';
+                // Efek kembang api kecil pas mendarat
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#d4bdac', '#533e2d', '#ffffff']
+                });
+            }
+        }, 4500); 
+    </script>
 </body>
+
+</html>
+</body>
+
 </html>
