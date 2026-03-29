@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HBD Sayang! ❤️</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
+
 <body>
 
     <div class="card">
         <div class="top-deco">📍 Menghitung Hari Sampai Kita Bertemu</div>
         <h1 class="dancing-font">Happy Birthday! 🎂</h1>
-        <p class="text-content">Selamat bertambah usia, Sayang! Meski kita beda pulau, doa aku selalu sampai ke kamu. Makasih ya sudah jadi bagian terindah di hidup aku. ❤️</p>
+        <p class="text-content">Selamat bertambah usia, Sayang! Meski kita beda pulau, doa aku selalu sampai ke kamu.
+            Makasih ya sudah jadi bagian terindah di hidup aku. ❤️</p>
 
         <button id="btn-surprise" onclick="bukaKado()">Buka Kado ❤️</button>
 
         <div id="hidden-content" style="display: none;">
-            <p class="sweet-message">Terima kasih ya udah lahir ke dunia. Makasih udah biarin aku jadi bagian hari spesialmu meskipun belum ketemu langsung. ❤️</p>
-            
+            <p class="sweet-message">Terima kasih ya udah lahir ke dunia. Makasih udah biarin aku jadi bagian hari
+                spesialmu meskipun belum ketemu langsung. ❤️</p>
+
             <div class="photo-grid">
                 <img src="doi1.jpeg" alt="Foto 1" class="photo-doi">
                 <img src="doi2.jpeg" alt="Foto 2" class="photo-doi">
@@ -27,8 +33,12 @@
             </div>
 
             <div class="barcode-container">
-                <p class="barcode-text">Scan ini buat kejutan kecil lainnya! ✨</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Selamat Ulang Tahun Sayang! Aku tunggu hari kita ketemu ya! ❤️" alt="QR Code" class="barcode-img">
+                <p class="barcode-text">Scan ini buat liat kado kedua dari Prabumulih! ✨</p>
+
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://alfriansyahreihan-cloud.github.io/ultah/kejutan.html"
+                    alt="QR Code" class="barcode-img">
+
+                <p style="font-size: 0.7rem; color: #a69080; margin-top: 10px;">(Coba scan pake HP ya!)</p>
             </div>
 
             <p class="signature dancing-font">With Love, Reihan</p>
@@ -39,10 +49,10 @@
         function bukaKado() {
             // 1. Sembunyikan Tombol
             document.getElementById('btn-surprise').style.display = 'none';
-            
+
             // 2. Munculkan Konten
             document.getElementById('hidden-content').style.display = 'block';
-            
+
             // 3. Mainkan Confetti
             confetti({
                 particleCount: 150,
@@ -53,4 +63,5 @@
         }
     </script>
 </body>
+
 </html>
