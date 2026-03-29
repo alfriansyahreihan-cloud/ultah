@@ -25,6 +25,34 @@
             overflow-x: hidden;
         }
 
+        /* --- Tombol Back Home (Pojok Kiri Atas) --- */
+        .btn-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #533e2d;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            border: 1px solid rgba(83, 62, 45, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .btn-home:hover {
+            background: #533e2d;
+            color: white;
+            transform: translateX(-3px);
+            box-shadow: 0 5px 15px rgba(83, 62, 45, 0.2);
+        }
+
         .card {
             background: white;
             padding: 30px;
@@ -124,7 +152,7 @@
         .letter-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(36, 28, 20, 0.98); /* Sangat Gelap */
+            background: rgba(36, 28, 20, 0.98);
             display: none; justify-content: center; align-items: center;
             z-index: 99999; padding: 20px;
         }
@@ -164,6 +192,13 @@
 
 <body>
 
+    <a href="index.html" class="btn-home">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>Back</span>
+    </a>
+
     <div class="card">
         <div class="header-label">✨ Koneksi Rindu Terdeteksi</div>
         <h1 class="main-title">Sumatra - Jawa</h1>
@@ -202,7 +237,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        // Efek Tombol Kado
         function celebrate() {
             confetti({
                 particleCount: 150,
@@ -214,7 +248,6 @@
             icon.innerText = '❤️';
         }
 
-        // LOGIKA SURAT TYPEWRITER
         const pesanDoi = "Halo sayang ku, hari ini adalah hari yang spesial bagi mu kuharap mulai dari hari ini untuk tahun berikutnya semoga kita akan tetep bersama terus, aku ingin kita terus bersama selamanya, aku ingin kamu selalu menceritakan semua cerita mu untuk kedepannya, oh iya aku juga sangat menantikan yang dimana kamu bisa mewujudkan semua impian mu, aku juga ingin kamu selalu berada disisiku, maaf ya aku cuman ngasi ini di ultah pertama mu saat bersama ku, semoga kita bisa melewati rintangan ini semua ya.. I LOVE YOU SO MUCH BEE ❤️";
 
         function openLetter() {
@@ -237,7 +270,6 @@
             document.getElementById('final-letter-overlay').style.display = 'none';
         }
 
-        // Delay tombol muncul (sesuaikan durasi pesawat mendarat)
         setTimeout(() => {
             const btnLanding = document.getElementById('landing-action');
             if (btnLanding) {
