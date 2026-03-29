@@ -237,6 +237,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
+        // Efek Tombol Kado
         function celebrate() {
             confetti({
                 particleCount: 150,
@@ -248,6 +249,7 @@
             icon.innerText = '❤️';
         }
 
+        // PESAN UTAMA
         const pesanDoi = "Halo sayang ku, hari ini adalah hari yang spesial bagi mu kuharap mulai dari hari ini untuk tahun berikutnya semoga kita akan tetep bersama terus, aku ingin kita terus bersama selamanya, aku ingin kamu selalu menceritakan semua cerita mu untuk kedepannya, oh iya aku juga sangat menantikan yang dimana kamu bisa mewujudkan semua impian mu, aku juga ingin kamu selalu berada disisiku, maaf ya aku cuman ngasi ini di ultah pertama mu saat bersama ku, semoga kita bisa melewati rintangan ini semua ya.. I LOVE YOU SO MUCH BEE ❤️";
 
         function openLetter() {
@@ -270,6 +272,7 @@
             document.getElementById('final-letter-overlay').style.display = 'none';
         }
 
+        // Delay tombol baca pesan muncul
         setTimeout(() => {
             const btnLanding = document.getElementById('landing-action');
             if (btnLanding) {
@@ -282,6 +285,13 @@
                 });
             }
         }, 4500); 
+
+        // --- PESAN RAHASIA DI TERMINAL (CONSOLE) ---
+        console.log("%c Pesan Rahasia Buat Kamu ❤️ ", "color: #533e2d; font-size: 20px; font-weight: bold; background: #f5f0e1; padding: 10px; border-radius: 5px;");
+        console.log("%cHai Sayang, kaget ya nemu pesan di sini? Hehe.", "color: #6b5a4a; font-size: 14px;");
+        console.log("%cWeb ini dibuat dengan penuh rasa rindu.", "color: #6b5a4a; font-size: 14px;");
+        console.log("%cJarak Prabumulih - Jakarta itu cuma angka, rasa sayang aku ke kamu itu baru luar biasa.", "color: #533e2d; font-weight: bold;");
+        console.log("%cDeveloped by: Reihan %c| 2026", "color: #d4bdac;", "color: #533e2d; font-weight: bold;");
     </script>
 </body>
 </html>
