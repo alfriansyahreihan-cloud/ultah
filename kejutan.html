@@ -15,6 +15,7 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
         }
         
         .card {
@@ -25,8 +26,10 @@
             max-width: 450px;
             width: 90%;
             text-align: center;
+            z-index: 10;
         }
 
+        /* Wrapper Peta dengan Zoom */
         .map-wrapper {
             position: relative;
             width: 100%;
@@ -35,22 +38,35 @@
             border-radius: 15px;
             border: 2px dashed #d4bdac;
             background-color: #f5f0e1;
+            overflow: hidden; /* Supaya zoom tidak keluar kotak */
+            cursor: pointer;
+        }
+
+        /* Konten Peta yang akan di-zoom */
+        .map-content {
+            width: 100%;
+            height: 100%;
             background-image: url('peta.jpeg'); 
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            transition: transform 3s ease-in-out; /* Efek cinematic zoom */
+            transform: scale(1);
         }
 
-        /* TITIK REAL GEOGRAFIS */
+        /* Class untuk mengaktifkan Zoom ke area Sumatra-Jawa */
+        .zoomed {
+            transform: scale(3.5) translate(22%, -18%); 
+        }
+
         .dot {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             z-index: 10;
         }
 
-        /* Prabumulih, Sumatra Selatan */
         #dot-prabumulih {
             top: 72%; 
             left: 21.5%;
@@ -59,7 +75,6 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Jakarta Barat, Jawa */
         #dot-jakarta {
             top: 83%; 
             left: 27%;
@@ -70,20 +85,19 @@
 
         .label {
             position: absolute;
-            font-size: 0.65rem;
+            font-size: 4px; /* Kecil karena kena zoom */
             color: #533e2d;
             font-weight: 700;
             z-index: 11;
             background: rgba(255,255,255,0.8);
-            padding: 1px 4px;
-            border-radius: 4px;
+            padding: 0.5px 2px;
+            border-radius: 2px;
             white-space: nowrap;
         }
 
-        #label-prabumulih { top: 65%; left: 15%; }
-        #label-jakarta { top: 88%; left: 24%; }
+        #label-prabumulih { top: 68%; left: 16%; }
+        #label-jakarta { top: 86%; left: 24%; }
 
-        /* Garis Animasi Melengkung Halus */
         .love-line {
             position: absolute;
             top: 0;
@@ -95,27 +109,27 @@
 
         .path {
             stroke: #533e2d;
-            stroke-width: 2.5;
+            stroke-width: 1.5;
             stroke-dasharray: 1000;
             stroke-dashoffset: 1000;
             fill: none;
             stroke-linecap: round;
             animation: draw 3s ease-in-out forwards;
-            animation-delay: 1s;
+            animation-delay: 3.5s; /* Tunggu zoom selesai baru gambar garis */
         }
 
         .heart-marker {
             opacity: 0;
             animation: appear 1s forwards;
-            animation-delay: 3.5s;
+            animation-delay: 6s;
         }
 
         @keyframes draw { to { stroke-dashoffset: 0; } }
-        @keyframes appear { to { opacity: 1; transform: scale(1.2); } }
+        @keyframes appear { to { opacity: 1; transform: scale(1); } }
         @keyframes pulse {
-            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(83, 62, 45, 0); }
-            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0); }
+            0% { transform: scale(0.9); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(0.9); }
         }
 
         .fade-in {
@@ -132,21 +146,58 @@
         <h1 class="dancing-font" style="font-size: 1.8rem; margin: 10px 0;">Sumatra ✈️ Jawa</h1>
         <p class="text-content" style="font-size: 0.9rem;">Meski terpisah pulau, rindu ini selalu punya cara untuk sampai. Selamat Ulang Tahun, Sayang! ❤️</p>
 
-        <div class="map-wrapper">
-            <div id="dot-prabumulih" class="dot"></div>
-            <div id="label-prabumulih" class="label">Prabumulih</div>
+        <div class="map-wrapper" onclick="toggleLove()">
+            <div id="mapContainer" class="map-content">
+                <div id="dot-prabumulih" class="dot"></div>
+                <div id="label-prabumulih" class="label">Prabumulih</div>
 
-            <div id="dot-jakarta" class="dot"></div>
-            <div id="label-jakarta" class="label">Jakarta Barat</div>
+                <div id="dot-jakarta" class="dot"></div>
+                <div id="label-jakarta" class="label">Jakarta Barat</div>
 
-            <svg class="love-line" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path class="path" d="M21.5,72 Q23,78 27,83"></path>
-                <text class="heart-marker" x="23" y="80" fill="#e74c3c" font-size="6">❤️</text>
-            </svg>
+                <svg class="love-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path id="lovePath" class="path" d="M21.5,72 Q23,78 27,83"></path>
+                    <text id="heartIcon" class="heart-marker" x="23" y="80" fill="#e74c3c" font-size="5">❤️</text>
+                </svg>
+            </div>
         </div>
 
         <p class="signature dancing-font" style="font-size: 1.3rem;">With Love, Reihan</p>
+        <p style="font-size: 0.6rem; color: #a69080;">(Tap petanya buat kirim balik rindu ✨)</p>
     </div>
 
+    <script>
+        // 1. Efek Zoom Otomatis saat halaman dimuat
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('mapContainer').classList.add('zoomed');
+            }, 500);
+        };
+
+        // 2. Fungsi Klik Bolak-balik (Prabumulih <-> Jakarta)
+        let isReversed = false;
+        function toggleLove() {
+            const path = document.getElementById('lovePath');
+            const heart = document.getElementById('heartIcon');
+            
+            if (!isReversed) {
+                // Balik: Jakarta ke Prabumulih
+                path.setAttribute('d', 'M27,83 Q23,78 21.5,72');
+                heart.setAttribute('x', '23');
+                heart.setAttribute('y', '77');
+                isReversed = true;
+            } else {
+                // Normal: Prabumulih ke Jakarta
+                path.setAttribute('d', 'M21.5,72 Q23,78 27,83');
+                heart.setAttribute('x', '23');
+                heart.setAttribute('y', '80');
+                isReversed = false;
+            }
+
+            // Reset animasi agar garis menggambar ulang
+            path.style.animation = 'none';
+            path.offsetHeight; // trigger reflow
+            path.style.animation = 'draw 2s ease-in-out forwards';
+        }
+    </script>
 </body>
 </html>
