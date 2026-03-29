@@ -7,138 +7,151 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        /* Style Khusus Buat Halaman Peta */
+        /* Style Khusus Halaman LDR PRO */
         body {
-            background-color: #e9e0d2; /* Warna cream background file romantis */
+            background-color: #e9e0d2;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
         
-        .map-container {
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .map-wrapper {
             position: relative;
             width: 100%;
-            height: 300px; /* Sesuaikan tinggi peta */
-            margin-top: 30px;
-            margin-bottom: 30px;
+            height: 300px; 
+            margin-top: 20px;
+            margin-bottom: 20px;
             overflow: hidden;
             border-radius: 15px;
             border: 2px dashed #d4bdac;
-            background-color: #f5f0e1; /* Background peta */
+            background-color: #f5f0e1;
+            
+            /* MENGGUNAKAN FILE JPEG KAMU */
+            background-image: url('peta.jpeg'); 
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
-        /* Titik Lokasi */
-        .location-dot {
+        /* Titik Prabumulih (Sumatra) */
+        .dot {
             position: absolute;
             width: 12px;
             height: 12px;
-            background-color: #533e2d; /* Warna cokelat tua tema kita */
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(83, 62, 45, 0.5);
+            z-index: 10;
+        }
+
+        #dot-prabumulih {
+            top: 38%; 
+            left: 18%;
+            background-color: #533e2d; 
+            box-shadow: 0 0 10px rgba(83, 62, 45, 0.8);
             animation: pulse 1.5s infinite;
         }
 
-        /* Prabumulih (Sumatra) */
-        #dot-prabumulih {
-            top: 20%; /* Sesuaikan posisi di peta */
-            left: 15%;
-        }
-
-        /* Jakarta Barat (Jawa) */
+        /* Titik Jakarta Barat (Jawa) */
         #dot-jakarta {
-            bottom: 20%; /* Sesuaikan posisi di peta */
-            right: 15%;
+            top: 68%; 
+            left: 32%;
+            background-color: #d4bdac; 
+            box-shadow: 0 0 10px rgba(212, 189, 172, 0.8);
+            animation: pulse 1.5s infinite;
         }
 
-        .location-label {
+        .label {
             position: absolute;
-            font-size: 0.8rem;
-            color: #6b5a4a;
-            font-weight: 600;
+            font-size: 0.7rem;
+            color: #533e2d;
+            font-weight: 700;
+            z-index: 11;
+            background: rgba(255,255,255,0.7);
+            padding: 2px 5px;
+            border-radius: 5px;
         }
 
-        #label-prabumulih {
-            top: 25%;
-            left: 10%;
-        }
+        #label-prabumulih { top: 32%; left: 10%; }
+        #label-jakarta { top: 73%; left: 28%; }
 
-        #label-jakarta {
-            bottom: 25%;
-            right: 10%;
-        }
-
-        /* Garis Hati Penghubung (Animasi) */
+        /* Garis Animasi */
         .love-line {
             position: absolute;
-            top: 20%;
-            left: 15%;
-            width: 70%;
-            height: 60%;
-            overflow: hidden;
-        }
-
-        .love-line svg {
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: 5;
         }
 
-        .love-path {
-            stroke: #d4bdac; /* Warna cokelat muda putus-putus */
+        .path {
+            stroke: #533e2d;
             stroke-width: 3;
-            stroke-dasharray: 10, 5; /* Garis putus-putus */
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
             fill: none;
             stroke-linecap: round;
-            animation: drawLine 3s ease-out forwards; /* Animasi menggambar garis */
+            animation: draw 3s ease-out forwards;
+            animation-delay: 1s;
         }
 
-        /* Animasi */
-        @keyframes drawLine {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(83, 62, 45, 0.7);
-            }
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 10px rgba(83, 62, 45, 0);
-            }
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(83, 62, 45, 0);
-            }
-        }
-
-        .fade-in-text {
+        .heart-center {
             opacity: 0;
-            animation: fadeIn 1.5s ease-in forwards;
+            animation: appear 1s forwards;
+            animation-delay: 3.5s;
         }
+
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        @keyframes appear { to { opacity: 1; transform: scale(1.2); } }
+        @keyframes pulse {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(83, 62, 45, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="top-deco fade-in-text">✨ Kejutan Kedua Buat Kamu</div>
-        <h1 class="dancing-font fade-in-text">Beda Pulau, Satu Hati ❤️</h1>
-        <p class="text-content fade-in-text" style="animation-delay: 1s;">Jarak itu cuma angka di peta, tapi doa dan rindu aku selalu sampai ke kamu.</p>
+    <div class="card fade-in">
+        <div class="top-deco">✨ Pesan Tersembunyi dari Prabumulih</div>
+        <h1 class="dancing-font">Beda Pulau, Satu Hati ❤️</h1>
+        <p class="text-content">Jarak Prabumulih - Jakarta Barat di peta cuma segini, tapi sayang aku ke kamu nggak ada batasnya. Selamat Ulang Tahun! ❤️</p>
 
-        <div class="map-container fade-in-text" style="animation-delay: 2s;">
-            <div id="dot-prabumulih" class="location-dot"></div>
-            <div id="label-prabumulih" class="location-label">Prabumulih</div>
+        <div class="map-wrapper">
+            <div id="dot-prabumulih" class="dot"></div>
+            <div id="label-prabumulih" class="label">📍 Prabumulih</div>
 
-            <div id="dot-jakarta" class="location-dot"></div>
-            <div id="label-jakarta" class="location-label">Jakarta Barat</div>
+            <div id="dot-jakarta" class="dot"></div>
+            <div id="label-jakarta" class="label">📍 Jakarta Barat</div>
 
             <div class="love-line">
-                <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path class="love-path" d="M15,20 C30,30 70,70 85,80" stroke-dashoffset="1000"></path>
-                    <text x="50" y="55" text-anchor="middle" fill="#d4bdac" font-size="6" font-family="Quicksand" font-weight="600">Connecting Hearts...</text>
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
+                    <path class="path" d="M18,38 Q25,55 32,68"></path>
+                    <text class="heart-center" x="25" y="55" fill="red" font-size="8">❤️</text>
                 </svg>
             </div>
         </div>
 
-        <p class="signature dancing-font fade-in-text" style="animation-delay: 4s;">With Love, Reihan</p>
+        <p class="signature dancing-font">With Love, Reihan</p>
     </div>
 
 </body>
