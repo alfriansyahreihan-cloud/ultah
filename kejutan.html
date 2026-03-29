@@ -22,14 +22,13 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Quicksand', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden; /* Mencegah scroll saat proses verifikasi */
         }
 
-        /* --- Tombol Back Home (Pojok Kiri Atas) --- */
-        .btn-home {
+        /* --- Tombol Back & Musik --- */
+        .btn-home, .btn-music {
             position: fixed;
             top: 20px;
-            left: 20px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -46,12 +45,17 @@
             z-index: 1000;
         }
 
-        .btn-home:hover {
+        .btn-home { left: 20px; }
+        .btn-music { right: 20px; cursor: pointer; }
+
+        .btn-home:hover, .btn-music:hover {
             background: #533e2d;
             color: white;
-            transform: translateX(-3px);
-            box-shadow: 0 5px 15px rgba(83, 62, 45, 0.2);
+            transform: scale(1.05);
         }
+
+        .rotating { animation: rotate 3s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .card {
             background: white;
@@ -64,6 +68,7 @@
             border: 1px solid #eee;
             position: relative;
             z-index: 1;
+            transition: 0.5s;
         }
 
         .header-label {
@@ -132,21 +137,53 @@
             100% { left: 0%; transform: translateY(-50%) rotate(0deg); }
         }
 
+        .travel-icon.landed {
+            animation: none;
+            left: 100%;
+            transform: translateY(-50%);
+            transition: 1s;
+        }
+
         .message { font-size: 0.9rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
         .signature { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #533e2d; margin-bottom: 15px; }
         
-        .btn-surprise {
-            background: #533e2d; color: white; border: none; padding: 12px 25px;
-            border-radius: 50px; font-family: 'Quicksand', sans-serif; font-weight: 600;
-            cursor: pointer; transition: 0.3s;
+        /* --- GIFT & VERIFICATION --- */
+        .gift-box {
+            font-size: 4.5rem;
+            cursor: pointer;
+            display: inline-block;
+            margin: 20px 0;
+            animation: floating 2s ease-in-out infinite;
+            transition: 0.4s;
         }
+
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .gift-box.exploded { transform: scale(0); opacity: 0; pointer-events: none; }
 
         .btn-read-more {
             background: #d4bdac; color: #533e2d; border: none; padding: 12px 25px;
             border-radius: 50px; font-family: 'Quicksand', sans-serif; font-weight: 700;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-top: 15px;
+            cursor: pointer; transition: 0.4s; opacity: 0; transform: translateY(20px);
+            pointer-events: none;
         }
+
+        .btn-read-more.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+        /* Overlay Verifikasi */
+        .overlay-verification {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(43, 32, 23, 0.98); display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000; color: #f5f0e1; gap: 20px; backdrop-filter: blur(10px);
+        }
+
+        .fingerprint-icon { font-size: 5rem; cursor: pointer; transition: 0.3s; position: relative; }
+        .fingerprint-icon.scanning::after {
+            content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 50%; border: 4px solid #f1c40f; border-top-color: transparent; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* --- OVERLAY SURAT GELAP --- */
         .letter-overlay {
@@ -183,6 +220,10 @@
             font-weight: 600; font-family: 'Quicksand', sans-serif;
         }
 
+        /* Hati Jatuh */
+        .heart { position: fixed; color: #e74c3c; font-size: 1.5rem; pointer-events: none; z-index: 0; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
         @keyframes popIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -199,16 +240,25 @@
         <span>Back</span>
     </a>
 
+    <div class="btn-music" onclick="toggleMusic()">
+        <span id="music-icon">💿</span>
+        <span id="music-status">Play Music</span>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="card">
         <div class="header-label">✨ Koneksi Rindu Terdeteksi</div>
-        <h1 class="main-title">Sumatra - Jawa</h1>
+        <h1 id="main-title" class="main-title">Sumatra - Jawa</h1>
 
         <div class="timeline-container">
             <div class="timeline-line"></div>
             <div id="node-prabumulih" class="city-node" style="left: 0;">
                 <span class="city-label" style="left: -10px;">Prabumulih</span>
             </div>
-            <div class="travel-icon">✈️</div>
+            <div id="travel-icon" class="travel-icon">✈️</div>
             <div id="node-jakarta" class="city-node" style="right: 0;">
                 <span class="city-label" style="right: -10px;">Jakarta Barat</span>
             </div>
@@ -221,11 +271,17 @@
 
         <p class="signature">With Love, Reihan</p>
         
-        <button class="btn-surprise" onclick="celebrate()">Buka Kado 🎁</button>
+        <div id="gift-box" class="gift-box" onclick="startVerify()">🎁</div>
 
-        <div id="landing-action" style="display: none; text-align: center;">
-            <button onclick="openLetter()" class="btn-read-more">Baca pesan dari Reihan ✉️</button>
+        <div id="landing-action" style="text-align: center;">
+            <button id="btn-read" onclick="openLetter()" class="btn-read-more">Baca pesan dari Reihan ✉️</button>
         </div>
+    </div>
+
+    <div id="verify-overlay" class="overlay-verification">
+        <p style="text-align: center; padding: 0 20px;">System: Mengunci Akses Kado...<br>Hanya untuk pemilik rindu terdaftar.</p>
+        <div id="finger-icon" class="fingerprint-icon" onclick="doScan()">☝️</div>
+        <p id="scan-status" style="font-size: 0.8rem; color: #a69080;">Tap untuk scan sidik jari</p>
     </div>
 
     <div id="final-letter-overlay" class="letter-overlay">
@@ -237,19 +293,73 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        // Efek Tombol Kado
-        function celebrate() {
+        const music = document.getElementById('bgMusic');
+        const mIcon = document.getElementById('music-icon');
+        const mStatus = document.getElementById('music-status');
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                mIcon.classList.add('rotating');
+                mStatus.innerText = "Playing...";
+            } else {
+                music.pause();
+                mIcon.classList.remove('rotating');
+                mStatus.innerText = "Paused";
+            }
+        }
+
+        function startVerify() {
+            document.getElementById('verify-overlay').style.display = 'flex';
+        }
+
+        function doScan() {
+            const icon = document.getElementById('finger-icon');
+            const status = document.getElementById('scan-status');
+            icon.classList.add('scanning');
+            status.innerText = "Verifying Identity...";
+
+            setTimeout(() => {
+                icon.classList.remove('scanning');
+                icon.innerHTML = "✅";
+                status.innerText = "Identity Confirmed!";
+                
+                setTimeout(() => {
+                    document.getElementById('verify-overlay').style.display = 'none';
+                    revealEverything();
+                }, 1000);
+            }, 2000);
+        }
+
+        function revealEverything() {
+            document.getElementById('gift-box').classList.add('exploded');
+            document.getElementById('travel-icon').classList.add('landed');
+            document.getElementById('main-title').innerHTML = "Access Granted! ❤️";
+            document.getElementById('btn-read').classList.add('show');
+            
+            // Ledakan Confetti
             confetti({
-                particleCount: 150,
-                spread: 70,
+                particleCount: 200,
+                spread: 100,
                 origin: { y: 0.6 },
                 colors: ['#533e2d', '#d4bdac', '#f1c40f', '#e74c3c']
             });
-            const icon = document.querySelector('.travel-icon');
-            icon.innerText = '❤️';
+
+            // Mulai Hujan Hati
+            setInterval(createHeart, 300);
+            document.body.style.overflow = 'auto';
         }
 
-        // PESAN UTAMA
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
         const pesanDoi = "Halo sayang ku, hari ini adalah hari yang spesial bagi mu kuharap mulai dari hari ini untuk tahun berikutnya semoga kita akan tetep bersama terus, aku ingin kita terus bersama selamanya, aku ingin kamu selalu menceritakan semua cerita mu untuk kedepannya, oh iya aku juga sangat menantikan yang dimana kamu bisa mewujudkan semua impian mu, aku juga ingin kamu selalu berada disisiku, maaf ya aku cuman ngasi ini di ultah pertama mu saat bersama ku, semoga kita bisa melewati rintangan ini semua ya.. I LOVE YOU SO MUCH BEE ❤️";
 
         function openLetter() {
@@ -272,24 +382,8 @@
             document.getElementById('final-letter-overlay').style.display = 'none';
         }
 
-        // Delay tombol baca pesan muncul
-        setTimeout(() => {
-            const btnLanding = document.getElementById('landing-action');
-            if (btnLanding) {
-                btnLanding.style.display = 'block';
-                confetti({
-                    particleCount: 80,
-                    spread: 60,
-                    origin: { y: 0.8 },
-                    colors: ['#d4bdac', '#533e2d']
-                });
-            }
-        }, 4500); 
-
-        // --- PESAN RAHASIA DI TERMINAL (CONSOLE) ---
+        // --- PESAN RAHASIA DI TERMINAL ---
         console.log("%c Pesan Rahasia Buat Kamu ❤️ ", "color: #533e2d; font-size: 20px; font-weight: bold; background: #f5f0e1; padding: 10px; border-radius: 5px;");
-        console.log("%cHai Sayang, kaget ya nemu pesan di sini? Hehe.", "color: #6b5a4a; font-size: 14px;");
-        console.log("%cWeb ini dibuat dengan penuh rasa rindu.", "color: #6b5a4a; font-size: 14px;");
         console.log("%cJarak Prabumulih - Jakarta itu cuma angka, rasa sayang aku ke kamu itu baru luar biasa.", "color: #533e2d; font-weight: bold;");
         console.log("%cDeveloped by: Reihan %c| 2026", "color: #d4bdac;", "color: #533e2d; font-weight: bold;");
     </script>
