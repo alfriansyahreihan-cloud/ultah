@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,38 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        /* STYLE KHUSUS TOMBOL LANJUT (PENGGANTI BARCODE) */
+        .btn-next-step {
+            background-color: transparent;
+            color: #533e2d;
+            border: 2px dashed #d4bdac; /* Garis putus-putus ala kado */
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            display: inline-block;
+            text-decoration: none; /* Hilangin garis bawah link */
+        }
+
+        .btn-next-step:hover {
+            background-color: #f5f0e1;
+            border-style: solid; /* Jadi garis utuh pas di-hover */
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(83, 62, 45, 0.1);
+        }
+
+        .btn-next-step:active {
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
+
 <body>
 
     <div class="card">
@@ -29,13 +61,17 @@
                 <img src="doi3.jpeg" alt="Foto 3" class="photo-doi">
             </div>
 
-            <div class="barcode-container">
-                <p class="barcode-text">Ada kejutan satu lagi buat kamu! ✨</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://alfriansyahreihan-cloud.github.io/ultah/kejutan.html" alt="QR Code" class="barcode-img">
-                <p style="font-size: 0.75rem; color: #a69080; margin-top: 10px;">(Scan QR ini pake HP kamu ya!)</p>
-            </div>
+            <hr style="border: 0.5px solid #e9e0d2; margin: 30px 0;">
 
-            <p class="signature dancing-font">With Love, Reihan</p>
+            <a href="kejutan.html" class="btn-next-step">
+                Lanjut ke Kejutan Kedua ✈️
+            </a>
+
+            <p style="font-size: 0.7rem; color: #a69080; font-style: italic;">
+                (Klik tombol di atas buat liat kado terbang dari Prabumulih!)
+            </p>
+
+            <p class="signature dancing-font" style="margin-top: 30px;">With Love, Reihan</p>
         </div>
     </div>
 
