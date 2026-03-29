@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kejutan Spesial! ❤️</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
+        /* --- CSS INTERNAL KEJUTAN --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #f5f0e1;
             display: flex;
@@ -17,6 +22,7 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
         }
 
         .card {
@@ -28,6 +34,8 @@
             width: 85%;
             text-align: center;
             border: 1px solid #eee;
+            position: relative;
+            z-index: 1;
         }
 
         .header-label {
@@ -40,31 +48,27 @@
 
         .main-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #533e2d;
             margin: 10px 0;
         }
 
-        /* --- TIMELINE CONTAINER --- */
+        /* --- TIMELINE ANIMASI --- */
         .timeline-container {
             position: relative;
             height: 120px;
             margin: 40px 0;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
 
-        /* Garis Putus-putus */
         .timeline-line {
             position: absolute;
             width: 100%;
             height: 2px;
             background: repeating-linear-gradient(to right, #d4bdac 0, #d4bdac 5px, transparent 5px, transparent 10px);
-            z-index: 1;
         }
 
-        /* Titik Kota */
         .city-node {
             position: absolute;
             width: 12px;
@@ -72,7 +76,6 @@
             background: #533e2d;
             border-radius: 50%;
             z-index: 3;
-            box-shadow: 0 0 10px rgba(83, 62, 45, 0.3);
         }
 
         .city-label {
@@ -84,15 +87,6 @@
             white-space: nowrap;
         }
 
-        #node-prabumulih {
-            left: 0;
-        }
-
-        #node-jakarta {
-            right: 0;
-        }
-
-        /* Icon Pesawat/Hati yang Bergerak */
         .travel-icon {
             position: absolute;
             left: 0;
@@ -103,60 +97,67 @@
         }
 
         @keyframes travel {
-            0% {
-                left: 0%;
-                transform: translateY(-50%) rotate(0deg);
-            }
-
-            50% {
-                left: 100%;
-                transform: translateY(-50%) rotate(0deg);
-            }
-
-            51% {
-                transform: translateY(-50%) rotateY(180deg);
-            }
-
-            99% {
-                left: 0%;
-                transform: translateY(-50%) rotateY(180deg);
-            }
-
-            100% {
-                left: 0%;
-                transform: translateY(-50%) rotate(0deg);
-            }
+            0% { left: 0%; transform: translateY(-50%) rotate(0deg); }
+            50% { left: 100%; transform: translateY(-50%) rotate(0deg); }
+            51% { transform: translateY(-50%) rotateY(180deg); }
+            99% { left: 0%; transform: translateY(-50%) rotateY(180deg); }
+            100% { left: 0%; transform: translateY(-50%) rotate(0deg); }
         }
 
-        /* Teks Pesan */
-        .message {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.6;
+        .message { font-size: 0.9rem; color: #666; line-height: 1.6; margin-bottom: 25px; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #533e2d; margin-bottom: 15px; }
+        
+        .btn-surprise {
+            background: #533e2d; color: white; border: none; padding: 12px 25px;
+            border-radius: 50px; font-family: 'Quicksand', sans-serif; font-weight: 600;
+            cursor: pointer; transition: 0.3s;
+        }
+
+        .btn-read-more {
+            background: #d4bdac; color: #533e2d; border: none; padding: 12px 25px;
+            border-radius: 50px; font-family: 'Quicksand', sans-serif; font-weight: 700;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 15px;
+        }
+
+        /* --- OVERLAY SURAT GELAP --- */
+        .letter-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(36, 28, 20, 0.98); /* Sangat Gelap */
+            display: none; justify-content: center; align-items: center;
+            z-index: 99999; padding: 20px;
+        }
+
+        .letter-card {
+            background: #fffdf9;
+            padding: 35px 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            max-width: 400px;
+            width: 100%;
+            text-align: left;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .typed-message {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #533e2d;
+            min-height: 180px;
+            white-space: pre-wrap;
             margin-bottom: 25px;
         }
 
-        .signature {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            color: #533e2d;
+        .btn-close {
+            background: #533e2d; color: white; border: none; padding: 12px;
+            border-radius: 12px; width: 100%; cursor: pointer;
+            font-weight: 600; font-family: 'Quicksand', sans-serif;
         }
 
-        .btn-surprise {
-            background: #533e2d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn-surprise:active {
-            transform: scale(0.95);
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -169,14 +170,11 @@
 
         <div class="timeline-container">
             <div class="timeline-line"></div>
-
-            <div id="node-prabumulih" class="city-node">
+            <div id="node-prabumulih" class="city-node" style="left: 0;">
                 <span class="city-label" style="left: -10px;">Prabumulih</span>
             </div>
-
             <div class="travel-icon">✈️</div>
-
-            <div id="node-jakarta" class="city-node">
+            <div id="node-jakarta" class="city-node" style="right: 0;">
                 <span class="city-label" style="right: -10px;">Jakarta Barat</span>
             </div>
         </div>
@@ -187,87 +185,71 @@
         </p>
 
         <p class="signature">With Love, Reihan</p>
-
+        
         <button class="btn-surprise" onclick="celebrate()">Buka Kado 🎁</button>
+
+        <div id="landing-action" style="display: none; text-align: center;">
+            <button onclick="openLetter()" class="btn-read-more">Baca pesan dari Reihan ✉️</button>
+        </div>
+    </div>
+
+    <div id="final-letter-overlay" class="letter-overlay">
+        <div class="letter-card">
+            <div id="typewriter-text" class="typed-message"></div>
+            <button onclick="closeLetter()" class="btn-close">Tutup & Peluk ❤️</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
+        // Efek Tombol Kado
         function celebrate() {
-            // Efek Confetti saat tombol ditekan
             confetti({
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
                 colors: ['#533e2d', '#d4bdac', '#f1c40f', '#e74c3c']
             });
-
-            // Ganti icon pesawat jadi hati saat diklik
             const icon = document.querySelector('.travel-icon');
             icon.innerText = '❤️';
-
-            setTimeout(() => {
-                alert("Selamat Ulang Tahun Sayang! Semoga rindu ini segera lunas! 🎂");
-            }, 500);
         }
-    </script>
-    <div id="landing-action" style="display: none; text-align: center; margin-top: 30px;">
-        <button onclick="openLetter()" class="btn-read-more">Baca pesan dari Reihan ✉️</button>
-    </div>
 
-    <div id="final-letter-overlay" class="overlay" style="display: none;">
-        <div class="letter-content">
-            <div id="typewriter-text" class="typed-message"></div>
-            <button onclick="closeLetter()" class="btn-close">Tutup ❤️</button>
-        </div>
-    </div>
-    <script>
-        // 1. Definisikan Pesan Tulus Kamu
+        // LOGIKA SURAT TYPEWRITER
         const pesanDoi = "Halo sayang ku, hari ini adalah hari yang spesial bagi mu kuharap mulai dari hari ini untuk tahun berikutnya semoga kita akan tetep bersama terus, aku ingin kita terus bersama selamanya, aku ingin kamu selalu menceritakan semua cerita mu untuk kedepannya, oh iya aku juga sangat menantikan yang dimana kamu bisa mewujudkan semua impian mu, aku juga ingin kamu selalu berada disisiku, maaf ya aku cuman ngasi ini di ultah pertama mu saat bersama ku, semoga kita bisa melewati rintangan ini semua ya.. I LOVE YOU SO MUCH BEE ❤️";
 
-        // 2. Fungsi untuk Membuka Surat & Efek Mengetik
         function openLetter() {
-            // Munculkan Overlay Gelap
             document.getElementById('final-letter-overlay').style.display = 'flex';
-
             let i = 0;
-            const speed = 60; // Kecepatan ngetik (60ms per huruf)
             const target = document.getElementById("typewriter-text");
-            target.innerHTML = ""; // Kosongkan dulu sebelum mulai ngetik
+            target.innerHTML = ""; 
 
             function type() {
                 if (i < pesanDoi.length) {
                     target.innerHTML += pesanDoi.charAt(i);
                     i++;
-                    setTimeout(type, speed);
+                    setTimeout(type, 50); 
                 }
             }
-            type();
+            setTimeout(type, 500);
         }
 
-        // 3. Fungsi untuk Menutup Surat
         function closeLetter() {
             document.getElementById('final-letter-overlay').style.display = 'none';
         }
 
-        // 4. Timer untuk Munculkan Tombol (Ganti 4500 sesuai durasi pesawat mendarat)
+        // Delay tombol muncul (sesuaikan durasi pesawat mendarat)
         setTimeout(() => {
             const btnLanding = document.getElementById('landing-action');
             if (btnLanding) {
                 btnLanding.style.display = 'block';
-                // Efek kembang api kecil pas mendarat
                 confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#d4bdac', '#533e2d', '#ffffff']
+                    particleCount: 80,
+                    spread: 60,
+                    origin: { y: 0.8 },
+                    colors: ['#d4bdac', '#533e2d']
                 });
             }
         }, 4500); 
     </script>
 </body>
-
-</html>
-</body>
-
 </html>
