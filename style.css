@@ -6,152 +6,166 @@
 }
 
 body {
-    background-color: #f5f0e1; /* Warna Cream Soft */
+    background-color: #f8f6f2; /* Warna off-white yang bersih */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     font-family: 'Quicksand', sans-serif;
     padding: 20px;
+    color: #333;
 }
 
 /* --- CARD UTAMA --- */
 .card {
     background: #ffffff;
-    max-width: 500px; /* Ukuran pas untuk konten kado */
+    max-width: 450px;
     width: 100%;
-    padding: 40px 25px;
-    border-radius: 25px;
+    padding: 40px 30px;
+    border-radius: 12px; /* Kotak sedikit tumpul, bukan bulat */
     text-align: center;
-    box-shadow: 0 10px 30px rgba(83, 62, 45, 0.1);
-    transition: all 0.5s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
 }
 
 .top-deco {
-    background: #e9e0d2;
-    color: #533e2d;
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    color: #888;
+    font-size: 0.7rem;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     margin-bottom: 20px;
-    letter-spacing: 0.5px;
 }
 
 .dancing-font {
     font-family: 'Dancing Script', cursive;
-    color: #533e2d; /* Cokelat Tua Warm */
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-}
-
-.text-content {
-    color: #6b5a4a;
-    line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 2.2rem;
+    color: #222;
     margin-bottom: 25px;
 }
 
-/* --- TOMBOL SURPRISE --- */
+/* --- TOMBOL UTAMA (CLEAN) --- */
 #btn-surprise {
-    background: #533e2d; /* Ganti ke cokelat tua biar lebih kontras */
-    color: white;
+    background: #222;
+    color: #fff;
     border: none;
-    padding: 15px 35px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 700;
+    padding: 12px 35px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(83, 62, 45, 0.25);
-    transition: 0.3s ease;
+    transition: 0.3s;
+    letter-spacing: 1px;
 }
 
 #btn-surprise:hover {
-    background: #6b533f;
-    transform: scale(1.05);
-    box-shadow: 0 12px 25px rgba(83, 62, 45, 0.35);
-}
-
-#btn-surprise:active {
-    transform: scale(0.95);
+    background: #444;
+    transform: translateY(-2px);
 }
 
 /* --- KONTEN RAHASIA --- */
 #hidden-content {
-    display: none; /* Diatur via JS */
-    animation: fadeIn 1.2s ease-out forwards;
+    animation: fadeIn 0.8s ease-in-out forwards;
 }
 
-.sweet-message {
-    color: #6b5a4a;
-    margin-top: 10px;
+.text-content {
     font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-    font-style: italic;
+    line-height: 1.7;
+    color: #555;
+    margin: 25px 0;
 }
 
 /* --- GRID FOTO --- */
 .photo-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tetap 3 kolom untuk estetik */
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
     margin-bottom: 30px;
 }
 
 .photo-doi {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Biar foto kotak sempurna */
+    aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 12px;
-    border: 4px solid #fcfaf7;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    filter: grayscale(20%); /* Biar tone warnanya lebih kalem */
     transition: 0.3s;
 }
 
 .photo-doi:hover {
-    transform: scale(1.05) rotate(2deg);
+    filter: grayscale(0%);
+    transform: scale(1.02);
 }
 
-/* --- BARCODE SECTION --- */
-.barcode-container {
-    margin-top: 10px;
-    margin-bottom: 25px;
-    padding: 20px;
-    background-color: #fcfaf7;
-    border-radius: 20px;
-    border: 2px dashed #d4bdac;
-    display: block; /* Agar memenuhi lebar card */
-}
-
-.barcode-text {
-    color: #533e2d;
-    font-size: 0.85rem;
-    margin-bottom: 12px;
+/* --- TOMBOL CHECK DISTANCE (OUTLINE STYLE) --- */
+.btn-next {
+    background: transparent;
+    color: #333;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.8rem;
     font-weight: 700;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: 0.3s;
 }
 
-.barcode-img {
-    width: 140px;
-    height: 140px;
-    border-radius: 10px;
-    border: 4px solid white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+.btn-next:hover {
+    background: #333;
+    color: #fff;
+}
+
+/* --- AREA ANIMASI PESAWAT --- */
+.distance-container {
+    position: relative;
+    height: 50px;
+    margin: 40px 0 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.timeline-line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+    top: 50%;
+}
+
+.travel-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    font-size: 1.4rem;
+    transform: translateY(-50%);
+    transition: left 4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    z-index: 2;
+}
+
+.city-name {
+    position: absolute;
+    bottom: -15px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
 }
 
 .signature {
-    font-size: 1.8rem;
-    margin-top: 10px;
-    color: #533e2d;
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 30px;
 }
 
 /* --- ANIMASI --- */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -161,9 +175,6 @@ h1 {
         padding: 30px 20px;
     }
     h1 {
-        font-size: 2rem;
-    }
-    .photo-grid {
-        gap: 8px;
+        font-size: 1.8rem;
     }
 }
