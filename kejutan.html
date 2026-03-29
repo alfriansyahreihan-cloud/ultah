@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
+        /* DASHBOARD UTAMA */
         body {
             background-color: #e9e0d2;
             display: flex;
@@ -15,89 +16,94 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Quicksand', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         
         .card {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             max-width: 450px;
             width: 90%;
             text-align: center;
-            z-index: 10;
+            position: relative;
         }
 
-        /* Wrapper Peta dengan Zoom */
+        /* CONTAINER PETA RESPONSIF */
         .map-wrapper {
             position: relative;
             width: 100%;
-            height: 250px; 
+            aspect-ratio: 16 / 9; /* Mengunci proporsi agar tidak gepeng di HP */
             margin: 20px 0;
             border-radius: 15px;
             border: 2px dashed #d4bdac;
             background-color: #f5f0e1;
-            overflow: hidden; /* Supaya zoom tidak keluar kotak */
+            overflow: hidden; /* Supaya zoom tetap di dalam kotak */
             cursor: pointer;
+            touch-action: manipulation;
         }
 
-        /* Konten Peta yang akan di-zoom */
-        .map-content {
+        /* KONTEN YANG DI-ZOOM */
+        #mapContent {
+            position: relative;
             width: 100%;
             height: 100%;
             background-image: url('peta.jpeg'); 
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            transition: transform 3s ease-in-out; /* Efek cinematic zoom */
+            transition: transform 3s cubic-bezier(0.45, 0.05, 0.55, 0.95);
             transform: scale(1);
         }
 
-        /* Class untuk mengaktifkan Zoom ke area Sumatra-Jawa */
-        .zoomed {
-            transform: scale(3.5) translate(22%, -18%); 
+        /* ZOOM FOCUS KE SUMATRA - JAWA */
+        /* scale(4) untuk zoom dalam, translate(x, y) untuk geser kamera */
+        .map-zoomed {
+            transform: scale(4) translate(21%, -19%); 
         }
 
+        /* TITIK LOKASI (Menggunakan % agar tetap di posisi yang sama walau di-zoom) */
         .dot {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             z-index: 10;
         }
 
         #dot-prabumulih {
-            top: 72%; 
-            left: 21.5%;
+            top: 72.5%; 
+            left: 21.2%;
             background-color: #533e2d; 
-            box-shadow: 0 0 10px rgba(83, 62, 45, 0.8);
+            box-shadow: 0 0 5px rgba(83, 62, 45, 0.8);
             animation: pulse 1.5s infinite;
         }
 
         #dot-jakarta {
-            top: 83%; 
-            left: 27%;
+            top: 83.5%; 
+            left: 26.8%;
             background-color: #d4bdac; 
-            box-shadow: 0 0 10px rgba(212, 189, 172, 0.8);
+            box-shadow: 0 0 5px rgba(212, 189, 172, 0.8);
             animation: pulse 1.5s infinite;
         }
 
         .label {
             position: absolute;
-            font-size: 4px; /* Kecil karena kena zoom */
+            font-size: 3px; /* Kecil karena akan ikut membesar saat zoom */
             color: #533e2d;
             font-weight: 700;
             z-index: 11;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.7);
             padding: 0.5px 2px;
-            border-radius: 2px;
+            border-radius: 1px;
             white-space: nowrap;
         }
 
-        #label-prabumulih { top: 68%; left: 16%; }
-        #label-jakarta { top: 86%; left: 24%; }
+        #label-prabumulih { top: 69%; left: 16%; }
+        #label-jakarta { top: 87%; left: 24%; }
 
+        /* GARIS CINTA */
         .love-line {
             position: absolute;
             top: 0;
@@ -105,31 +111,33 @@
             width: 100%;
             height: 100%;
             z-index: 5;
+            pointer-events: none;
         }
 
         .path {
             stroke: #533e2d;
-            stroke-width: 1.5;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
+            stroke-width: 0.8;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
             fill: none;
             stroke-linecap: round;
             animation: draw 3s ease-in-out forwards;
-            animation-delay: 3.5s; /* Tunggu zoom selesai baru gambar garis */
+            animation-delay: 3s; /* Garis muncul SETELAH zoom selesai */
         }
 
         .heart-marker {
             opacity: 0;
             animation: appear 1s forwards;
-            animation-delay: 6s;
+            animation-delay: 5.5s;
         }
 
+        /* ANIMASI */
         @keyframes draw { to { stroke-dashoffset: 0; } }
         @keyframes appear { to { opacity: 1; transform: scale(1); } }
         @keyframes pulse {
-            0% { transform: scale(0.9); }
-            70% { transform: scale(1.2); }
-            100% { transform: scale(0.9); }
+            0% { transform: scale(0.8); }
+            70% { transform: scale(1.3); }
+            100% { transform: scale(0.8); }
         }
 
         .fade-in {
@@ -137,6 +145,13 @@
             animation: fadeIn 1.5s forwards;
         }
         @keyframes fadeIn { to { opacity: 1; } }
+
+        .hint {
+            font-size: 0.7rem;
+            color: #a69080;
+            margin-top: 10px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -144,10 +159,14 @@
     <div class="card fade-in">
         <div class="top-deco">📍 Jarak Bukan Penghalang</div>
         <h1 class="dancing-font" style="font-size: 1.8rem; margin: 10px 0;">Sumatra ✈️ Jawa</h1>
-        <p class="text-content" style="font-size: 0.9rem;">Meski terpisah pulau, rindu ini selalu punya cara untuk sampai. Selamat Ulang Tahun, Sayang! ❤️</p>
+        
+        <p class="text-content" style="font-size: 0.9rem;">
+            Meski terpisah pulau, rindu ini selalu punya cara untuk sampai.<br>
+            Selamat Ulang Tahun, Sayang! ❤️
+        </p>
 
         <div class="map-wrapper" onclick="toggleLove()">
-            <div id="mapContainer" class="map-content">
+            <div id="mapContent">
                 <div id="dot-prabumulih" class="dot"></div>
                 <div id="label-prabumulih" class="label">Prabumulih</div>
 
@@ -155,47 +174,48 @@
                 <div id="label-jakarta" class="label">Jakarta Barat</div>
 
                 <svg class="love-line" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path id="lovePath" class="path" d="M21.5,72 Q23,78 27,83"></path>
+                    <path id="lovePath" class="path" d="M21.2,72.5 Q23.5,78 26.8,83.5"></path>
                     <text id="heartIcon" class="heart-marker" x="23" y="80" fill="#e74c3c" font-size="5">❤️</text>
                 </svg>
             </div>
         </div>
 
-        <p class="signature dancing-font" style="font-size: 1.3rem;">With Love, Reihan</p>
-        <p style="font-size: 0.6rem; color: #a69080;">(Tap petanya buat kirim balik rindu ✨)</p>
+        <p class="signature dancing-font" style="font-size: 1.3rem; margin-bottom: 5px;">With Love, Reihan</p>
+        <p class="hint">(Tap petanya buat kirim rindu balik ✨)</p>
     </div>
 
     <script>
-        // 1. Efek Zoom Otomatis saat halaman dimuat
-        window.onload = function() {
+        // ZOOM OTOMATIS SAAT DIBUKA
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                document.getElementById('mapContainer').classList.add('zoomed');
-            }, 500);
-        };
+                document.getElementById('mapContent').classList.add('map-zoomed');
+            }, 800);
+        });
 
-        // 2. Fungsi Klik Bolak-balik (Prabumulih <-> Jakarta)
+        // INTERAKSI KLIK BOLAK-BALIK
         let isReversed = false;
         function toggleLove() {
             const path = document.getElementById('lovePath');
             const heart = document.getElementById('heartIcon');
             
+            // Hapus animasi dulu agar bisa diulang
+            path.style.animation = 'none';
+            path.offsetHeight; 
+            
             if (!isReversed) {
-                // Balik: Jakarta ke Prabumulih
-                path.setAttribute('d', 'M27,83 Q23,78 21.5,72');
+                // ARAH BALIK: Jakarta -> Prabumulih
+                path.setAttribute('d', 'M26.8,83.5 Q23.5,78 21.2,72.5');
                 heart.setAttribute('x', '23');
                 heart.setAttribute('y', '77');
                 isReversed = true;
             } else {
-                // Normal: Prabumulih ke Jakarta
-                path.setAttribute('d', 'M21.5,72 Q23,78 27,83');
+                // ARAH NORMAL: Prabumulih -> Jakarta
+                path.setAttribute('d', 'M21.2,72.5 Q23.5,78 26.8,83.5');
                 heart.setAttribute('x', '23');
                 heart.setAttribute('y', '80');
                 isReversed = false;
             }
 
-            // Reset animasi agar garis menggambar ulang
-            path.style.animation = 'none';
-            path.offsetHeight; // trigger reflow
             path.style.animation = 'draw 2s ease-in-out forwards';
         }
     </script>
