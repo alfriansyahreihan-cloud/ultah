@@ -7,171 +7,181 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #e9e0d2;
+            background-color: #f5f0e1;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             font-family: 'Quicksand', sans-serif;
-            overflow: hidden;
         }
         
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 450px;
-            width: 90%;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            max-width: 400px;
+            width: 85%;
             text-align: center;
+            border: 1px solid #eee;
         }
 
-        /* CONTAINER RADAR GPS */
-        .map-wrapper {
+        .header-label {
+            color: #a69080;
+            font-weight: bold;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #533e2d;
+            margin: 10px 0;
+        }
+
+        /* --- TIMELINE CONTAINER --- */
+        .timeline-container {
             position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            margin: 20px 0;
-            border-radius: 15px;
-            background-color: #1a1c20; /* Dark GPS Mode */
-            overflow: hidden;
-            border: 2px solid #333;
-            cursor: pointer;
+            height: 120px;
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        #mapContent {
+        /* Garis Putus-putus */
+        .timeline-line {
             position: absolute;
             width: 100%;
-            height: 100%;
-            transition: transform 3.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform: scale(1);
+            height: 2px;
+            background: repeating-linear-gradient(to right, #d4bdac 0, #d4bdac 5px, transparent 5px, transparent 10px);
+            z-index: 1;
         }
 
-        /* ZOOM DRONE VIEW */
-        .zoomed {
-            transform: scale(3.5) translate(22%, -18%); 
-        }
-
-        /* PETA VECTOR (ANTI-MELESET) */
-        .map-svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 5px rgba(0,255,255,0.1));
-        }
-
-        /* TITIK GPS */
-        .dot {
+        /* Titik Kota */
+        .city-node {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 12px;
+            height: 12px;
+            background: #533e2d;
             border-radius: 50%;
-            z-index: 10;
+            z-index: 3;
+            box-shadow: 0 0 10px rgba(83, 62, 45, 0.3);
         }
 
-        #gps-prabumulih { top: 73%; left: 21%; background: #f1c40f; box-shadow: 0 0 10px #f1c40f; animation: pulse 1.5s infinite; }
-        #gps-jakarta { top: 84%; left: 27%; background: #dcdde1; box-shadow: 0 0 10px #dcdde1; animation: pulse 1.5s infinite; }
-
-        .label {
+        .city-label {
             position: absolute;
-            font-size: 3.5px;
-            color: #eee;
+            top: 25px;
+            font-size: 0.8rem;
             font-weight: 700;
-            background: rgba(0,0,0,0.6);
-            padding: 0.5px 2px;
-            border-radius: 2px;
+            color: #533e2d;
             white-space: nowrap;
         }
 
-        #label-prabumulih { top: 69%; left: 16%; }
-        #label-jakarta { top: 87%; left: 24%; }
+        #node-prabumulih { left: 0; }
+        #node-jakarta { right: 0; }
 
-        /* GARIS RINDU */
-        .path {
-            stroke: #e74c3c;
-            stroke-width: 0.8;
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            fill: none;
-            stroke-linecap: round;
-            animation: draw 3s ease-in-out forwards;
-            animation-delay: 3.5s;
+        /* Icon Pesawat/Hati yang Bergerak */
+        .travel-icon {
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            z-index: 4;
+            transform: translateY(-50%);
+            animation: travel 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
         }
 
-        .heart-marker {
-            opacity: 0;
-            animation: appear 1s forwards;
-            animation-delay: 6s;
+        @keyframes travel {
+            0% { left: 0%; transform: translateY(-50%) rotate(0deg); }
+            50% { left: 100%; transform: translateY(-50%) rotate(0deg); }
+            51% { transform: translateY(-50%) rotateY(180deg); }
+            99% { left: 0%; transform: translateY(-50%) rotateY(180deg); }
+            100% { left: 0%; transform: translateY(-50%) rotate(0deg); }
         }
 
-        @keyframes draw { to { stroke-dashoffset: 0; } }
-        @keyframes appear { to { opacity: 1; transform: scale(1.2); } }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            70% { transform: scale(2.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 0; }
+        /* Teks Pesan */
+        .message {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
 
-        .dancing-font { font-family: 'Dancing Script', cursive; }
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #533e2d;
+        }
+
+        .btn-surprise {
+            background: #533e2d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-surprise:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div style="color: #a69080; font-weight: bold; font-size: 0.8rem;">📍 GPS: Tracking Love Connection</div>
-        <h1 class="dancing-font" style="font-size: 1.8rem; margin: 10px 0; color: #533e2d;">Sumatra ✈️ Jawa</h1>
-        
-        <p style="font-size: 0.85rem; color: #666;">Meski terpisah pulau, rindu ini selalu punya koordinat yang tepat untuk pulang. ❤️</p>
+        <div class="header-label">✨ Koneksi Rindu Terdeteksi</div>
+        <h1 class="main-title">Sumatra - Jawa</h1>
 
-        <div class="map-wrapper" onclick="toggleLove()">
-            <div id="mapContent">
-                <svg class="map-svg" viewBox="0 0 100 100">
-                    <g stroke="rgba(255,255,255,0.05)" stroke-width="0.1">
-                        <line x1="0" y1="70" x2="100" y2="70" /><line x1="0" y1="80" x2="100" y2="80" />
-                        <line x1="20" y1="0" x2="20" y2="100" /><line x1="30" y1="0" x2="30" y2="100" />
-                    </g>
-                    <path d="M10,60 L15,65 L22,73 L25,78 L28,85 L35,88 L45,87" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round"/>
-                    
-                    <path id="lovePath" class="path" d="M21,73 Q23.5,78.5 27,84"></path>
-                    <text id="heartIcon" class="heart-marker" x="23" y="79.5" fill="red" font-size="5">❤️</text>
-                </svg>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div id="node-prabumulih" class="city-node">
+                <span class="city-label" style="left: -10px;">Prabumulih</span>
+            </div>
 
-                <div id="gps-prabumulih" class="dot"></div>
-                <div id="label-prabumulih" class="label">Prabumulih</div>
+            <div class="travel-icon">✈️</div>
 
-                <div id="gps-jakarta" class="dot"></div>
-                <div id="label-jakarta" class="label">Jakarta Barat</div>
+            <div id="node-jakarta" class="city-node">
+                <span class="city-label" style="right: -10px;">Jakarta Barat</span>
             </div>
         </div>
 
-        <p class="signature dancing-font" style="font-size: 1.4rem; color: #533e2d; margin-bottom: 5px;">With Love, Reihan</p>
-        <p style="font-size: 0.6rem; color: #a69080;">(Tap peta untuk sinkronisasi rindu ✨)</p>
+        <p class="message">
+            "Jarak ribuan kilometer bukan alasan untuk berhenti. <br>
+            Setiap detik yang berlalu adalah langkah menuju temu."
+        </p>
+
+        <p class="signature">With Love, Reihan</p>
+        
+        <button class="btn-surprise" onclick="celebrate()">Buka Kado 🎁</button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('mapContent').classList.add('zoomed');
-            }, 800);
-        });
+        function celebrate() {
+            // Efek Confetti saat tombol ditekan
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#533e2d', '#d4bdac', '#f1c40f', '#e74c3c']
+            });
 
-        let isReversed = false;
-        function toggleLove() {
-            const path = document.getElementById('lovePath');
-            const heart = document.getElementById('heartIcon');
-            path.style.animation = 'none';
-            path.offsetHeight; 
+            // Ganti icon pesawat jadi hati saat diklik
+            const icon = document.querySelector('.travel-icon');
+            icon.innerText = '❤️';
             
-            if (!isReversed) {
-                path.setAttribute('d', 'M27,84 Q23.5,78.5 21,73');
-                heart.setAttribute('x', '22.5'); heart.setAttribute('y', '77.5');
-                isReversed = true;
-            } else {
-                path.setAttribute('d', 'M21,73 Q23.5,78.5 27,84');
-                heart.setAttribute('x', '23'); heart.setAttribute('y', '79.5');
-                isReversed = false;
-            }
-            path.style.animation = 'draw 2.5s ease-in-out forwards';
+            setTimeout(() => {
+                alert("Selamat Ulang Tahun Sayang! Semoga rindu ini segera lunas! 🎂");
+            }, 500);
         }
     </script>
 </body>
