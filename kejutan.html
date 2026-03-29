@@ -7,23 +7,22 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        /* Style Khusus Halaman LDR PRO */
         body {
             background-color: #e9e0d2;
-            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            font-family: 'Quicksand', sans-serif;
         }
         
         .card {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             text-align: center;
         }
@@ -31,42 +30,39 @@
         .map-wrapper {
             position: relative;
             width: 100%;
-            height: 300px; 
-            margin-top: 20px;
-            margin-bottom: 20px;
-            overflow: hidden;
+            height: 250px; 
+            margin: 20px 0;
             border-radius: 15px;
             border: 2px dashed #d4bdac;
             background-color: #f5f0e1;
-            
-            /* MENGGUNAKAN FILE JPEG KAMU */
             background-image: url('peta.jpeg'); 
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
         }
 
-        /* Titik Prabumulih (Sumatra) */
+        /* TITIK REAL GEOGRAFIS */
         .dot {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             z-index: 10;
         }
 
+        /* Prabumulih, Sumatra Selatan */
         #dot-prabumulih {
-            top: 38%; 
-            left: 18%;
+            top: 72%; 
+            left: 21.5%;
             background-color: #533e2d; 
             box-shadow: 0 0 10px rgba(83, 62, 45, 0.8);
             animation: pulse 1.5s infinite;
         }
 
-        /* Titik Jakarta Barat (Jawa) */
+        /* Jakarta Barat, Jawa */
         #dot-jakarta {
-            top: 68%; 
-            left: 32%;
+            top: 83%; 
+            left: 27%;
             background-color: #d4bdac; 
             box-shadow: 0 0 10px rgba(212, 189, 172, 0.8);
             animation: pulse 1.5s infinite;
@@ -74,19 +70,20 @@
 
         .label {
             position: absolute;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #533e2d;
             font-weight: 700;
             z-index: 11;
-            background: rgba(255,255,255,0.7);
-            padding: 2px 5px;
-            border-radius: 5px;
+            background: rgba(255,255,255,0.8);
+            padding: 1px 4px;
+            border-radius: 4px;
+            white-space: nowrap;
         }
 
-        #label-prabumulih { top: 32%; left: 10%; }
-        #label-jakarta { top: 73%; left: 28%; }
+        #label-prabumulih { top: 65%; left: 15%; }
+        #label-jakarta { top: 88%; left: 24%; }
 
-        /* Garis Animasi */
+        /* Garis Animasi Melengkung Halus */
         .love-line {
             position: absolute;
             top: 0;
@@ -98,16 +95,16 @@
 
         .path {
             stroke: #533e2d;
-            stroke-width: 3;
-            stroke-dasharray: 500;
-            stroke-dashoffset: 500;
+            stroke-width: 2.5;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
             fill: none;
             stroke-linecap: round;
-            animation: draw 3s ease-out forwards;
+            animation: draw 3s ease-in-out forwards;
             animation-delay: 1s;
         }
 
-        .heart-center {
+        .heart-marker {
             opacity: 0;
             animation: appear 1s forwards;
             animation-delay: 3.5s;
@@ -117,7 +114,7 @@
         @keyframes appear { to { opacity: 1; transform: scale(1.2); } }
         @keyframes pulse {
             0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(83, 62, 45, 0); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(83, 62, 45, 0); }
             100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(83, 62, 45, 0); }
         }
 
@@ -125,33 +122,30 @@
             opacity: 0;
             animation: fadeIn 1.5s forwards;
         }
-
         @keyframes fadeIn { to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="card fade-in">
-        <div class="top-deco">✨ Pesan Tersembunyi dari Prabumulih</div>
-        <h1 class="dancing-font">Beda Pulau, Satu Hati ❤️</h1>
-        <p class="text-content">Jarak Prabumulih - Jakarta Barat di peta cuma segini, tapi sayang aku ke kamu nggak ada batasnya. Selamat Ulang Tahun Ya Sayangku Cintaku Duniaku! ❤️</p>
+        <div class="top-deco">📍 Jarak Bukan Penghalang</div>
+        <h1 class="dancing-font" style="font-size: 1.8rem; margin: 10px 0;">Sumatra ✈️ Jawa</h1>
+        <p class="text-content" style="font-size: 0.9rem;">Meski terpisah pulau, rindu ini selalu punya cara untuk sampai. Selamat Ulang Tahun, Sayang! ❤️</p>
 
         <div class="map-wrapper">
             <div id="dot-prabumulih" class="dot"></div>
-            <div id="label-prabumulih" class="label">📍 Prabumulih</div>
+            <div id="label-prabumulih" class="label">Prabumulih</div>
 
             <div id="dot-jakarta" class="dot"></div>
-            <div id="label-jakarta" class="label">📍 Jakarta Barat</div>
+            <div id="label-jakarta" class="label">Jakarta Barat</div>
 
-            <div class="love-line">
-                <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
-                    <path class="path" d="M18,38 Q25,55 32,68"></path>
-                    <text class="heart-center" x="25" y="55" fill="red" font-size="8">❤️</text>
-                </svg>
-            </div>
+            <svg class="love-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path class="path" d="M21.5,72 Q23,78 27,83"></path>
+                <text class="heart-marker" x="23" y="80" fill="#e74c3c" font-size="6">❤️</text>
+            </svg>
         </div>
 
-        <p class="signature dancing-font">With Love, Reihan</p>
+        <p class="signature dancing-font" style="font-size: 1.3rem;">With Love, Reihan</p>
     </div>
 
 </body>
